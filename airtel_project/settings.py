@@ -19,7 +19,7 @@ CSRF_TRUSTED_ORIGINS = [
     "http://*.manus.computer",
     "https://*.manus.im",
     "http://*.manus.im",
-    "https://chad-starlink.up.railway.app",
+    "https://*.up.railway.app",
     "https://8000-i3caewrto6typ353ui9v2-73294f82.us1.manus.computer",
 ]
 
