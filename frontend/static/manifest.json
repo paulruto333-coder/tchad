@@ -1,0 +1,81 @@
+{
+  "name": "Starlink Tchad - Internet Haut Débit",
+  "short_name": "Starlink",
+  "description": "Internet satellite haut débit pour le Tchad via Starlink et MOOV MONEY",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "/static/pwa/icon-192x192.png?v=3",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/pwa/icon-512x512.png?v=3",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/pwa/icon-192x192.png?v=3",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/static/pwa/icon-512x512.png?v=3",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/static/pwa/icon-192x192.png?v=3",
+      "sizes": "192x192",
+      "type": "image/png",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/static/pwa/icon-512x512.png?v=3",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "categories": ["utilities", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Choisir un Forfait",
+      "short_name": "Forfaits",
+      "description": "Parcourir et sélectionner les forfaits Starlink",
+      "url": "/plans/",
+      "icons": [
+        {
+          "src": "/static/pwa/icon-192x192.png?v=3",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Statut du Réseau",
+      "short_name": "Statut",
+      "description": "Vérifier le statut et la vitesse du réseau",
+      "url": "/dashboard/",
+      "icons": [
+        {
+          "src": "/static/pwa/icon-192x192.png?v=3",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

